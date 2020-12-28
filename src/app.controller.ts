@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
+import { ApiParam } from '@nestjs/swagger';
 import {
   AddToCartBody,
   CheckoutCartBody,
@@ -18,16 +19,21 @@ export class AppController {
     };
   }
 
-  @Put('/souq/api/cart/add/{productid}')
-  public addToCart(@Body() body: AddToCartBody) {
+  @Put('/souq/api/cart/add/:id')
+  @ApiParam({ name: 'id', example: '1' })
+  public addToCart(@Body() body: AddToCartBody, @Param('id') id: string = '1') {
     return {
       added: true,
       status: 'OK',
     };
   }
 
-  @Delete('/souq/api/cart/remove/{productid}')
-  public removeFromCart(@Body() body: RemoveFromCartBody) {
+  @Delete('/souq/api/cart/remove/:id')
+  @ApiParam({ name: 'id', example: '1' })
+  public removeFromCart(
+    @Body() body: RemoveFromCartBody,
+    @Param('id') id: string = '1',
+  ) {
     return {
       removed: true,
       status: 'OK',
